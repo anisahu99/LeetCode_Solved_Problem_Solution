@@ -11,23 +11,28 @@ class Solution
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
         // Code here
-        vector<int> minDistance(V,INT_MAX);
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        minDistance[S]=0;
-        pq.push({0,S});
-        while(!pq.empty()){
-            int node=pq.top().second;
-            int currD=pq.top().first;pq.pop();
-            for(vector<int> neighbour:adj[node]){
-                int d=neighbour[1];
-                int next_node=neighbour[0];
-                if(currD+d<minDistance[next_node]){
-                    minDistance[next_node]=currD+d;
-                    pq.push({currD+d,next_node});
+        set<pair<int,int>> st;
+        vector<int> result(V,INT_MAX);
+        result[S]=0;
+        st.insert({0,S});
+        while(!st.empty()){
+            auto it=*st.begin();
+            int node=it.second;
+            int D=it.first;
+            st.erase(st.begin());
+            for(vector<int> edge:adj[node]){
+                int adj_node=edge[0];
+                int wt=edge[1];
+                if(D+wt<result[adj_node]){
+                    if(result[adj_node]!=INT_MAX){
+                        st.erase({result[adj_node],adj_node});
+                    }
+                    result[adj_node]=D+wt;
+                    st.insert({D+wt,adj_node});
                 }
             }
         }
-        return minDistance;
+        return result;
     }
 };
 
