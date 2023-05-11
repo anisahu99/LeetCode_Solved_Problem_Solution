@@ -17,23 +17,22 @@ public:
             head=head->next;
         }
         int mx=INT_MIN;
-        vector<ListNode*> node;
+        head=NULL;
         while(!st.empty()){
             ListNode* temp=st.top();st.pop();
             if(temp->val>=mx){
-                node.push_back(temp);
+                temp->next=NULL;
+                if(!head){
+                    head=temp;
+                }else{
+                    ListNode* t=head;
+                    head=temp;
+                    head->next=t;
+                }
                 mx=temp->val;
             }
         }
-        int n=node.size();
-        head=node[n-1];
-        head->next=NULL;
-        ListNode* temp=head;
-        for(int i=n-2;i>=0;i--){
-            temp->next=node[i];
-            node[i]->next=NULL;
-            temp=node[i];
-        }
+        
         return head;
     }
 };
