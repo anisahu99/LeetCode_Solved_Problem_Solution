@@ -8,12 +8,11 @@ public:
     int x[4]={1,-1,0,0};
     int y[4]={0,0,1,-1};
     int m,n;
-    vector<vector<int>> vis;
     bool solve(int i,int row,int col,string word,vector<vector<char>>& board){
         if(i>=word.length()){
             return true;
         }
-        if(row<0||row>=m||col<0||col>=n||vis[row][col]){
+        if(row<0||row>=m||col<0||col>=n||board[row][col]=='0'){
             return false;
         }
         if(board[row][col]!=word[i]){
@@ -21,14 +20,16 @@ public:
         }
         
         
-        vis[row][col]=1;
+        char chr=board[row][col];
+        board[row][col]='0';
         for(int k=0;k<4;k++){
             
             if(solve(i+1,row+x[k],col+y[k],word,board)){
                 return true;
             }
         }
-        vis[row][col]=0;
+        board[row][col]=chr;
+        
         return false;
         
     }
@@ -38,7 +39,6 @@ public:
     bool isWordExist(vector<vector<char>>& board, string word) {
         // Code here
         m=board.size(),n=board[0].size();
-        vis.resize(m,vector<int>(n,0));
         for(int row=0;row<m;row++){
             for(int col=0;col<n;col++){
                 char ch=board[row][col];
