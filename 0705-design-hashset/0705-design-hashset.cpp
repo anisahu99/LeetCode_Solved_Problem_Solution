@@ -1,22 +1,37 @@
 class MyHashSet {
 public:
-    static const int sz=1e6+1;
-    vector<int> dp;
+    vector<list<int>> buckets;
+    int M;
+    int getIndex(int key){
+        return key%M;
+    }
     MyHashSet() {
-        dp.resize(sz,0);
+        M=1500;//given 10^4 calls  bu we take extra for difficulty.
+        buckets=vector<list<int>>(M,list<int>{});
     }
     
     void add(int key) {
-        dp[key]=1;
+        int index=getIndex(key);
+        auto itr=find(buckets[index].begin(),buckets[index].end(),key);
+        if(itr==buckets[index].end()){
+            buckets[index].push_back(key);
+        }
     }
     
     void remove(int key) {
-        dp[key]=0;
+        int index=getIndex(key);
+        auto itr=find(buckets[index].begin(),buckets[index].end(),key);
+        if(itr!=buckets[index].end()){
+            buckets[index].erase(itr);
+        }
     }
     
     bool contains(int key) {
-        if(dp[key])
+        int index=getIndex(key);
+        auto itr=find(buckets[index].begin(),buckets[index].end(),key);
+        if(itr!=buckets[index].end()){
             return true;
+        }
         return false;
     }
 };
