@@ -4,6 +4,7 @@ public:
     unordered_map<string,pair<int,int>>mp;
     UndergroundSystem() {
         CIT.clear();
+        mp.clear();
     }
     
     void checkIn(int id, string stationName, int t) {
