@@ -15,6 +15,7 @@ public:
         if(CIT.find(id)!=CIT.end()){
             mp[CIT[id].first+"-"+stationName]={mp[CIT[id].first+"-"+stationName].first+1,mp[CIT[id].first+"-"+stationName].second+(t-CIT[id].second)};
         }
+        CIT.erase(id);
     }
     
     double getAverageTime(string startStation, string endStation) {
