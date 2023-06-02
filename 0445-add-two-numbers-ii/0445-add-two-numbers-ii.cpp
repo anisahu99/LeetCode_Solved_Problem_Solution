@@ -31,28 +31,26 @@ public:
         l2=reverseList(l2);
         
         int carry=0;
-        ListNode* temp1=l1;
-        ListNode* temp2=l2;
         ListNode* Nhead=new ListNode(0);
         ListNode* pointer=Nhead;
-        while(temp1&&temp2){
-            Nhead->next=new ListNode((temp1->val+temp2->val+carry)%10);
-            carry=(temp1->val+temp2->val+carry)/10;
+        while(l1&&l2){
+            Nhead->next=new ListNode((l1->val+l2->val+carry)%10);
+            carry=(l1->val+l2->val+carry)/10;
             Nhead=Nhead->next;
-            temp1=temp1->next;
-            temp2=temp2->next;
+            l1=l1->next;
+            l2=l2->next;
         }
-        while(temp1){
-            Nhead->next=new ListNode((temp1->val+carry)%10);
-            carry=(temp1->val+carry)/10;
+        while(l1){
+            Nhead->next=new ListNode((l1->val+carry)%10);
+            carry=(l1->val+carry)/10;
             Nhead=Nhead->next;
-            temp1=temp1->next;
+            l1=l1->next;
         }
-        while(temp2){
-            Nhead->next=new ListNode((temp2->val+carry)%10);
-            carry=(temp2->val+carry)/10;
+        while(l2){
+            Nhead->next=new ListNode((l2->val+carry)%10);
+            carry=(l2->val+carry)/10;
             Nhead=Nhead->next;
-            temp2=temp2->next;
+            l2=l2->next;
         }
         if(carry){
             Nhead->next=new ListNode(carry%10);
