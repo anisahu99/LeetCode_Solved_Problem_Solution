@@ -62,8 +62,8 @@ public:
     
     int helpSanta(int n, int m, vector<vector<int>> &g){
         // Code here
-        if(m==0)
-        return -1;
+        // if(m==0)
+        // return -1;
         rank1.resize(n+1);
         par.resize(n+1);
         for(int i=1;i<=n;i++){
@@ -82,6 +82,9 @@ public:
         int mx=INT_MIN;
         for(int i=1;i<=n;i++){
             mx=max(mx,cnt[i]);
+        }
+        if(mx==1){
+            return -1;
         }
         return Prime[mx-1];
         
