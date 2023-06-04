@@ -10,30 +10,25 @@ class Solution
     string reverseEqn (string s)
         {
             //code here.
-            stack<char> st;
+            string ans;
             int n=s.length();
-            for(int i=0;i<n;i++){
+            for(int i=n-1;i>=0;i--){
                 if(s[i]>='0'&&s[i]<='9'){
                     string num;
-                    while(i<n&&s[i]>='0'&&s[i]<='9'){
+                    while(i>=0&&s[i]>='0'&&s[i]<='9'){
                         num.push_back(s[i]);
-                        i++;
+                        i--;
                     }
-                    i--;
+                    i++;
                     int k=num.length()-1;
                     while(k>=0){
-                        st.push(num[k]);
+                        ans.push_back(num[k]);
                         k--;
                     }
                 }
                 else{
-                    st.push(s[i]);
+                    ans.push_back(s[i]);
                 }
-            }
-            string ans;
-            while(!st.empty()){
-                ans.push_back(st.top());
-                st.pop();
             }
             return ans;
         }
