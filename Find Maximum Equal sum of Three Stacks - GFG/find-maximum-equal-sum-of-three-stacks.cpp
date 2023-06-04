@@ -7,36 +7,36 @@ using namespace std;
 
 // } Driver Code Ends
 //User function Template for C++
+// this question based on suffix array sum;
 
 class Solution{
 public:
     int maxEqualSum(int N1,int N2,int N3,vector<int> &S1,vector<int> &S2,vector<int> &S3){
-        int sum1 = 0,sum2 = 0,sum3 = 0;
-        for(int i=0;i<N1;i++) sum1 += S1[i];
-        for(int i=0;i<N2;i++) sum2 += S2[i];
-        for(int i=0;i<N3;i++) sum3 += S3[i];
-        int t1 = 0,t2 = 0,t3 = 0;
-        int mini = min(sum1,min(sum2,sum3));
-        while((sum1 != sum2) or (sum2 != sum3))
-        {
-            if(sum1 != mini and t1 < N1)
-            {
-                sum1 -= S1[t1];
-                t1++;
-            }
-            if(sum2 != mini and t2 < N2)
-            {
-                sum2 -= S2[t2];
-                t2++;
-            }
-            if(sum3 != mini and t3 < N3)
-            {
-                sum3 -= S3[t3];
-                t3++;
-            }
-            mini = min(sum1,min(sum2,sum3));
+        int sum1=0,sum2=0,sum3=0,i1=0,i2=0,i3=0;
+        for(int &val:S1){
+            sum1+=val;
         }
-        return sum1;
+        for(int &val:S2){
+            sum2+=val;
+        }
+        for(int &val:S3){
+            sum3+=val;
+        }
+        while(i1<N1&&i2<N2&&i3<N3){
+            if(sum1==sum2&&sum2==sum3){
+                return sum1;
+            }
+            if(sum1>sum2||sum1>sum3){
+                sum1-=S1[i1++];
+            }
+            if(sum2>sum1||sum2>sum3){
+                sum2-=S2[i2++];
+            }
+            if(sum3>sum1||sum3>sum2){
+                sum3-=S3[i3++];
+            }
+        }
+        return 0;
     }
 };
 
