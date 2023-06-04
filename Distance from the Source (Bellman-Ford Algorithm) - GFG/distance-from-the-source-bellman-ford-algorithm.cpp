@@ -18,13 +18,13 @@ class Solution {
         dis[S]=0;
         for(int i=1;i<=V-1;i++){
             for(vector<int>& edge:edges){
-                if(dis[edge[0]]!=INT_MAX&&dis[edge[0]]+edge[2]<dis[edge[1]]){
+                if(dis[edge[0]]!=1e8&&dis[edge[0]]+edge[2]<dis[edge[1]]){
                     dis[edge[1]]=dis[edge[0]]+edge[2];
                 }
             }
         }
         for(vector<int>& edge:edges){
-            if(dis[edge[0]]!=INT_MAX&&dis[edge[0]]+edge[2]<dis[edge[1]]){
+            if(dis[edge[0]]!=1e8&&dis[edge[0]]+edge[2]<dis[edge[1]]){
                 return {-1};
             }
         }
