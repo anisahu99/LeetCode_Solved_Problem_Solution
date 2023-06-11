@@ -1,29 +1,24 @@
 class Solution {
-public:
-    void solve(int i,string ans,string s,vector<string> &res){
-        
-        if(i>=s.length()){
-            //cout<<ans<<endl;
-            res.push_back(ans);
+    //char takes 8bit in c++
+    //'a'=97
+    //01100001
+    //if we change 5th bit then we toggle a to A.
+    void backtrack(string &s, int i, vector<string> &res) {
+        if (i == s.size()) {
+            res.push_back(s);
             return;
         }
-        
-        if(s[i]>='a'&&s[i]<='z'){
-            solve(i+1,ans+s[i],s,res);
-            char ch=char(s[i]-32);
-            solve(i+1,ans+ch,s,res);
+        backtrack(s, i + 1, res);
+        if (isalpha(s[i])) {
+            // toggle case
+            s[i] ^= (1 << 5);
+            backtrack(s, i + 1, res);
         }
-        else if(s[i]>='A'&&s[i]<='Z'){
-            solve(i+1,ans+s[i],s,res);
-            char ch=char(s[i]+32);
-            solve(i+1,ans+ch,s,res);
-        }
-        else
-            solve(i+1,ans+s[i],s,res);
     }
-    vector<string> letterCasePermutation(string s) {
+public:
+    vector<string> letterCasePermutation(string S) {
         vector<string> res;
-        solve(0,"",s,res);
+        backtrack(S, 0, res);
         return res;
     }
 };
