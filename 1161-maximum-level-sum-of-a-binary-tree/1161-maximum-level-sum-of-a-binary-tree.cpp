@@ -11,28 +11,30 @@
  */
 class Solution {
 public:
+    
+    unordered_map<int,int> mp;
+ void dfs(TreeNode* root,int level){
+        if(!root) return;
+        mp[level]=mp[level]+root->val;
+        dfs(root->left,level+1);
+        dfs(root->right,level+1);
+    }
     int maxLevelSum(TreeNode* root) {
-        int level =1;
-        int ans=1;
-        int sum=INT_MIN;
-        queue<TreeNode*> q;
-        q.push(root);
-        while(!q.empty()){
-            int s=q.size();
-            int currSum=0;
-            for(int i=0;i<s;i++){
-                TreeNode* temp=q.front();
-                q.pop();
-                currSum+=temp->val;
-                if(temp->left) q.push(temp->left);
-                if(temp->right) q.push(temp->right);
+        
+        int level=1;
+        int sum=root->val;
+        dfs(root,1);
+        for(auto it:mp){
+            if(it.second>sum){
+                level=it.first;
+                sum=it.second;
             }
-            if(currSum>sum){
-                sum=currSum;
-                ans=level;
+            else if(it.second==sum){
+                if(level>it.first){
+                    level=it.first;
+                }
             }
-            level++;
         }
-        return ans;
+        return level;
     }
 };
