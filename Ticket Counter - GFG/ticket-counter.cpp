@@ -7,26 +7,52 @@ using namespace std;
 
 class Solution {
   public:
-    int distributeTicket(int N, int K) {
-        int firstKRem = 0;
-        bool left2Right = 1;
-        
-        while(N-firstKRem > K) {
-            // remove first K
-            firstKRem += K;
-            left2Right = !left2Right;
-            
-            // remove last K
-            if(N-firstKRem > K) {
-                N -= K;
-                left2Right = !left2Right;
-            }
+  
+  void print(queue<int> q){
+      while(!q.empty()){
+          cout<<q.front()<<" ";
+          q.pop();
+      }
+      cout<<endl;
+  }
+    int distributeTicket(int N, int k) {
+        // code here
+        queue<int> q;
+        for(int i=1;i<=N;i++){
+            q.push(i);
         }
         
-        if(left2Right)
-            return N;
+        int l2r=1;
+        //print(q);
+        while(q.size()>k){
+            //print(q);
+            if(q.size()>k&&l2r){
+                l2r=0;
+                for(int i=0;i<k;i++){
+                    q.pop();
+                }
+            }
+            if(q.size()>k){
+                int sz=q.size()-k;
+                for(int i=0;i<sz;i++){
+                    //cout<<q.front()<<" ";
+                    q.push(q.front());
+                    q.pop();
+                }
+            }
+            if(q.size()>k){
+                l2r=1;
+                for(int i=0;i<k;i++){
+                    q.pop();
+                }
+            }
             
-        return firstKRem+1;
+            //print(q);
+        }
+        while(l2r&&q.size()!=1){
+            q.pop();
+        }
+        return q.front();
     }
 };
 
