@@ -29,12 +29,20 @@ class Solution
     int maximizeTheCuts(int L, int x, int y, int z)
     {
         //Your code here
-        vector<int>dp(L+1,-1);
-        vector<int> cuts;
-        cuts.push_back(x);
-        cuts.push_back(y);
-        cuts.push_back(z);
-        return solve(cuts,L,dp)<0?0:solve(cuts,L,dp);
+        vector<int>dp(L+1,INT_MIN);
+        dp[0]=0;
+        for(int i=1;i<=L;i++){
+            if(i-x>=0){
+                dp[i]=max(dp[i],dp[i-x]+1);
+            }
+            if(i-y>=0){
+                dp[i]=max(dp[i],dp[i-y]+1);
+            }
+            if(i-z>=0){
+                dp[i]=max(dp[i],dp[i-z]+1);
+            }
+        }
+        return dp[L]<0?0:dp[L];
     }
 };
 
