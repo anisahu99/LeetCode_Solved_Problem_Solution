@@ -34,7 +34,7 @@ class Solution
             }
             next1=curr1;
         }
-        return next1[0];
+        return curr1[0];
     }
     int lcs(int &x, int &y, string &s1, string &s2)
     {
