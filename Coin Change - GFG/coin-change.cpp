@@ -6,32 +6,34 @@ using namespace std;
 class Solution {
   public:
   
-  
-  long long int func(int ind,int coins[],int sum,vector<vector<int long long >>&dp){
-      if(sum==0){
+  vector<vector<long long int>> dp;
+  long long int solve(int i,int currSum,int coins[],int sum,int N){
+      if(currSum==sum){
           return 1;
       }
-      if(ind==-1){
+      if(i==N){
           return 0;
       }
     //   if(ind==0){
     //       if(sum%coins[0]==0) return 1;
     //       else return 0;
     //   }
-      if(dp[ind][sum]!=-1) return dp[ind][sum];
-      int long long dont=func(ind-1,coins,sum,dp);
-      int long long take=0;
-      if(coins[ind]<=sum){
-          take=func(ind,coins,sum-coins[ind],dp);
-      }
+      if(dp[i][currSum]!=-1) return dp[i][currSum];
       
-      return dp[ind][sum]= dont+take;
+     
+      long long int take=0;
+      if(coins[i]+currSum<=sum){
+          take=solve(i,currSum+coins[i],coins,sum,N);
+      }
+      long long int not_take=solve(i+1,currSum,coins,sum,N);
+      
+      return dp[i][currSum]= take+not_take;
   }
     long long int count(int coins[], int N, int sum) {
 
         // code here.
-        vector<vector<int long long>> dp(N,vector<int long long>(sum+1,-1));
-        return func(N-1,coins,sum,dp);
+        dp.resize(N,vector<int long long>(sum+1,-1));
+        return solve(0,0,coins,sum,N);
     }
 };
 
