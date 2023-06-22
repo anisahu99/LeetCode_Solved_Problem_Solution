@@ -1,10 +1,9 @@
 class Solution {
 public:
     int solveTab(vector<int>& prices,int &fee){
-        vector<vector<int>> dp(prices.size()+1,vector<int>(3,0));
         
-        vector<int> curr(3,0);
-        vector<int> next(3,0);
+        vector<int> curr(2,0);
+        vector<int> next(2,0);
         
         
         for(int day=prices.size()-1;day>=0;day--){
