@@ -9,31 +9,32 @@ using namespace std;
 
 class Solution{
 public:
-    vector<vector<int>> dp;
-    int solve(int i,int target,int arr[],int N){
-        if(target==0){
-            return 1;
-        }
-        if(i==N){
-            return 0;
-        }
-        if(dp[i][target]!=-1){
-            return dp[i][target];
-        }
-        int take=solve(i+1,target-arr[i],arr,N);
+    
+    int solveTab(int target,int N,int arr[]){
+        vector<vector<int>> dp(N+1,vector<int>(target+1,0));
         
-        if(take){
-            dp[i][target]=1;
-            return 1;
-        }
-        int not_take=solve(i+1,target,arr,N);
+        vector<int> curr(target+1,0);
+        vector<int> next(target+1,0);
         
-        if(not_take){
-            dp[i][target]=1;
-            return 1;
+        curr[0]=1;
+        next[0]=1;
+        
+        for(int i=N-1;i>=0;i--){
+            for(int t=0;t<=target;t++){
+                
+                int take=0;
+                if(t-arr[i]>=0){
+                    take=next[t-arr[i]];
+                }
+                
+                int not_take=next[t];
+                
+                curr[t]=take or not_take;
+            }
+            next=curr;
+            
         }
-        dp[i][target]=0;
-        return 0;
+        return next[target];
     }
     int equalPartition(int N, int arr[])
     {
@@ -45,8 +46,7 @@ public:
         if(totalSum&1){
             return 0;
         }
-        dp.resize(N,vector<int>(totalSum/2+1,-1));
-        return solve(0,totalSum/2,arr,N);
+        return solveTab(totalSum/2,N,arr);
     }
 };
 
