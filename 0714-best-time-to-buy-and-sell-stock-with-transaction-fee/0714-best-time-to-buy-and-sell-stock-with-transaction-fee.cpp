@@ -7,10 +7,6 @@ public:
         int next0=0;
         int next1=0;
         
-        vector<int> curr(2,0);
-        vector<int> next(2,0);
-        
-        
         for(int day=prices.size()-1;day>=0;day--){
             for(int buy=0;buy<2;buy++){
                 int profit=0;
