@@ -6,27 +6,24 @@ using namespace std;
 class Solution
 {
     public:
+    //Function to count number of ways to reach the nth stair.
     int mod=1e9+7;
-    int solveTab(int n){
-        vector<int> dp(n+1,0);
-        dp[0]=1;
-        for(int i=1;i<=n;i++){
-            int one=0,two=0;
-            if(i-1>=0){
-                one=dp[i-1]%mod;
-            }
-            if(i-2>=0){
-                two=dp[i-2]%mod;
-            }
-            dp[i]=(one+two)%mod;
-        }
-        return dp[n];
-    }
     int countWays(int n)
     {
         // your code here
-        
-        return solveTab(n);
+        if(n==1){
+            return 1;
+        }
+            int prev=1;
+            int next=1;
+            int total;
+            for(int i=2;i<=n;i++){
+                    total=(next%mod+prev%mod)%mod;
+                    prev=next;
+                    next=total;
+                    
+            }
+            return total;
     }
 };
 
