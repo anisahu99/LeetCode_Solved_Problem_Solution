@@ -9,14 +9,17 @@ class Solution
     public:
     //Function to find the maximum money the thief can get.
     int solveTab(int arr[],int n){
-        vector<int> dp(n+2,0);
+        int next2=0;
+        int next1=0;
         for(int i=n-1;i>=0;i--){
-            int ans1=arr[i]+dp[i+2];
-            int ans2=0+dp[i+1];
-            dp[i]=max({ans1,ans2});
+            int ans1=arr[i]+next2;
+            int ans2=0+next1;
+            int temp=max({ans1,ans2});
+            next2=next1;
+            next1=temp;
         }
         
-        return dp[0];
+        return next1;
     }
     int FindMaxSum(int arr[], int n)
     {
