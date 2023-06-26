@@ -14,18 +14,17 @@ public:
         // code here
         if(n<r) return 0;
         if(n==r) return 1;
-        vector<vector<int>> pascal;
-        pascal.push_back({1});
-        for(int i=1;i<=n;i++){
+        vector<int> pascal;
+        for(int i=0;i<=n;i++){
             vector<int> v(i+1,1);
             for(int j=1;j<i;j++){
                 if(j-1>=0&&j>=0){
-                    v[j]=(pascal[i-1][j-1]%mod+pascal[i-1][j]%mod)%mod;
+                    v[j]=(pascal[j-1]%mod+pascal[j]%mod)%mod;
                 }
             }
-            pascal.push_back(v);
+            pascal=v;
         }
-        return pascal[n][r];
+        return pascal[r];
     }
 };
 
