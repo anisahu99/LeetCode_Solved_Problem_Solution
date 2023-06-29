@@ -6,18 +6,19 @@ using namespace std;
 class Solution{
 	public:
 	int solveTab(int arr[],int n){
-	    vector<vector<int>> dp(n+1,vector<int>(n+1,0));
+	    vector<int> curr(n+1,0),next(n+1,0);
 	    for(int i=n-1;i>=0;i--){
 	        for(int j=i-1;j>=-1;j--){
 	            int take=0;
         	    if(j==-1||arr[i]>arr[j]){
-        	        take=arr[i]+dp[i+1][i+1];
+        	        take=arr[i]+next[i+1];
         	    }
-        	    int not_take=not_take=dp[i+1][j+1];
-        	    dp[i][j+1]=max(take,not_take);
+        	    int not_take=not_take=next[j+1];
+        	    curr[j+1]=max(take,not_take);
 	        }
+	        next=curr;
 	    }
-	    return dp[0][0];
+	    return next[0];
 	}
 	int maxSumIS(int arr[], int n)  
 	{  
