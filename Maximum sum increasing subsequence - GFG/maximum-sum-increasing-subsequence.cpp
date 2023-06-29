@@ -4,30 +4,25 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution{
-		
-
 	public:
-	vector<vector<int>> dp;
-	int solve(int i,int preIdx,int arr[],int n){
-	    if(i==n){
-	        return 0;
+	int solveTab(int arr[],int n){
+	    vector<vector<int>> dp(n+1,vector<int>(n+1,0));
+	    for(int i=n-1;i>=0;i--){
+	        for(int j=i-1;j>=-1;j--){
+	            int take=0;
+        	    if(j==-1||arr[i]>arr[j]){
+        	        take=arr[i]+dp[i+1][i+1];
+        	    }
+        	    int not_take=not_take=dp[i+1][j+1];
+        	    dp[i][j+1]=max(take,not_take);
+	        }
 	    }
-	    if(dp[i][preIdx+1]!=-1){
-	        return dp[i][preIdx+1];
-	    }
-	    int take=0;
-	    if(preIdx==-1||arr[i]>arr[preIdx]){
-	        take=arr[i]+solve(i+1,i,arr,n);
-	    }
-	    int not_take=solve(i+1,preIdx,arr,n);
-	    
-	    return dp[i][preIdx+1]=max(take,not_take);
+	    return dp[0][0];
 	}
 	int maxSumIS(int arr[], int n)  
 	{  
 	    // Your code goes here
-	    dp.resize(n,vector<int>(n+1,-1));
-	    return solve(0,-1,arr,n);
+	    return solveTab(arr,n);
 	}  
 };
 
