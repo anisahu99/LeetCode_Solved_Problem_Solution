@@ -1,27 +1,29 @@
 class Solution {
 public:
-    int ans = INT_MAX;
+    //int ans = INT_MAX;
     //pick cookies bag or not.
-    void solve(int pick, vector<int>& nums, vector<int>& v, int k){
+    //brute force
+    int solve(int pick, vector<int>& nums, vector<int>& v, int k){
         if(pick==nums.size()){
-            int maxm = INT_MIN;
+            int mx = INT_MIN;
             for(int i=0;i<k;i++){
-                maxm = max(maxm,v[i]);
+                mx = max(mx,v[i]);
             }
-            ans = min(ans,maxm);
-            return;
+            return mx;
         }
+        int res=INT_MAX;
         for(int i=0;i<k;i++){
             v[i] += nums[pick];
-            solve(pick+1,nums,v,k);
+            res=min(res,solve(pick+1,nums,v,k));
             v[i] -= nums[pick];
         }
+        return res;
     }
     
     int distributeCookies(vector<int>& nums, int k) { // nums is the cookies vector
         int n = nums.size();
         vector<int> v(k,0); // v is to store each sum of the k subsets
-        solve(0,nums,v,k);
-        return ans;
+        
+        return solve(0,nums,v,k);
     }
 };
