@@ -1,48 +1,43 @@
 class Solution {
 public:
-    bool buddyStrings(string s, string goal) {
-        if (s.size() != goal.size()) {
-            return false;
-        }
-
-        if (s == goal) {
-            // If we have 2 same characters in string 's',
-            // we can swap them and still strings will remain equal.
-            vector<int> frequency(26, 0);
-            for (auto& ch : s) {
-                frequency[ch - 'a'] += 1;
-                if (frequency[ch - 'a'] == 2) {
+    
+    bool buddyStrings(string &s, string &goal) {
+        int ns=s.length(),ng=goal.length();
+        if(ns!=ng) return false;
+        if(s==goal){
+            vector<int> freq(26);
+            for(int i=0;i<ns;i++){
+                freq[s[i]-'a']++;
+                if(freq[s[i]-'a']==2){
                     return true;
                 }
             }
-            // Otherwise, if we swap any two chanacters it will make strings unequal.
             return false;
         }
         
-        int firstIndex = -1;
-        int secondIndex = -1;
-
-        for (int i = 0; i < s.size(); ++i) {
-            if (s[i] != goal[i]) {
-                if (firstIndex == -1) {
-                    firstIndex = i;
-                } else if (secondIndex == -1) {
-                    secondIndex = i;
-                } else {
-                    // We have atleast 3 indices with differnet characters,
-                    // thus, we can never make strings equal with only one swap.
+        int i=0,j=ns-1;
+        
+        while(i<j){
+            
+            while(s[i]==goal[i]){
+                i++;
+            }
+            
+            while(s[j]==goal[j]){
+                j--;
+            }
+            if(i<j){
+                char temp=s[i];
+                s[i]=s[j];
+                s[j]=temp;
+                if(s==goal){
+                    return true;
+                }
+                else{
                     return false;
                 }
             }
         }
-
-        if (secondIndex == -1) {
-            // We can't swap if character at only one index is different.
-            return false;
-        }
-        
-        // All characters of both the string are same except two indices.
-        return s[firstIndex] == goal[secondIndex] && 
-               s[secondIndex] == goal[firstIndex];
+        return false;
     }
 };
