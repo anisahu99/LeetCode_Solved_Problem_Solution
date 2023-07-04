@@ -1,32 +1,29 @@
 class Solution {
 public:
-    int ans = 0;
-
-    void helper(int start, vector<vector<int>>& requests, vector<int>& indegree, int n, int count) {
-        if (start == requests.size()) {
-            for (int i = 0; i < n; i++) {
-                if (indegree[i] != 0) {
-                    return;
+    
+    int solve(int i,int n,vector<int>& res,vector<vector<int>>& requests){
+        
+        if(i==requests.size()){
+            for(int j=0;j<n;j++){
+                if(res[j]!=0){
+                    return INT_MIN;
                 }
             }
-            ans = max(ans, count);
-            return;
+            return 0;
         }
+        
+        int not_take=0+solve(i+1,n,res,requests);
+        
+        //take
+        res[requests[i][0]]--;res[requests[i][1]]++;
+        int take=1+solve(i+1,n,res,requests);
+        res[requests[i][0]]++;res[requests[i][1]]--;
+        
+        return max(take,not_take);
 
-        // Take 
-        indegree[requests[start][0]]--;
-        indegree[requests[start][1]]++;
-        helper(start + 1,requests, indegree, n, count + 1);
-
-        // Not-take
-        indegree[requests[start][0]]++;
-        indegree[requests[start][1]]--;
-        helper(start + 1,requests, indegree, n, count);
     }
-    
     int maximumRequests(int n, vector<vector<int>>& requests) {
-        vector<int> indegree(n, 0);
-        helper(0, requests, indegree, n, 0);
-        return ans;
+        vector<int> res(n,0);
+        return solve(0,n,res,requests);
     }
 };
