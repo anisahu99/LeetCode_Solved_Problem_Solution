@@ -10,15 +10,13 @@ class Solution
     void transpose(vector<vector<int> >& matrix, int n)
     { 
         // code here 
-        vector<vector<int>> temp(n,vector<int>(n,0));
-        for(int col=0;col<n;col++){
-            for(int row=0;row<n;row++){
-                temp[col][row]=matrix[row][col];
+        for(int row=0;row<n;row++){
+            for(int col=0+row;col>=0&&col<n;col++){
+                int temp=matrix[row][col];
+                matrix[row][col]=matrix[col][row];
+                matrix[col][row]=temp;
             }
         }
-        matrix.clear();
-        matrix=temp;
-        temp.clear();
     }
 };
 
