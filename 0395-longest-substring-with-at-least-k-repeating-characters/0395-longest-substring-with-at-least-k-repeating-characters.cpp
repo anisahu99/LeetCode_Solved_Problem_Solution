@@ -1,31 +1,21 @@
 class Solution {
 public:
-    int find_length(vector<int>& freq,int k){
-        int ans=0;
-        for(int &val:freq){
-            if(val>=k){
-                ans+=val;
-            }
-            else if(val!=0){
-                return 0;
-            }
-        }
-        
-        return ans;
-    }
     int longestSubstring(string s, int k) {
         int n=s.length();
-        int ans=0;
-        for(int i=0;i<n;i++){
-            vector<int> freq(26,0);
-            for(int j=i;j<n;j++){
-                freq[s[j]-'a']++;
-                int ln=find_length(freq,k);
-                //cout<<ln<<",";
-                ans=max(ans,ln);
-            }
-            //cout<<endl;
-        }
-        return ans;
+        if(n==0||n<k) return 0;
+        if(k<=1) return n;
+        
+        unordered_map<char,int> count;
+        for(char &ch:s) count[ch]++;
+        int l=0;
+        while(l<n&&count[s[l]]>=k) l++;
+        if(l>=n-1) return l;
+        
+        int ans1=longestSubstring(s.substr(0,l),k);
+        
+        while(l<n&&count[s[l]]<k) l++;
+        
+        int ans2=(l<n)?longestSubstring(s.substr(l),k):0;
+        return max(ans1,ans2);
     }
 };
