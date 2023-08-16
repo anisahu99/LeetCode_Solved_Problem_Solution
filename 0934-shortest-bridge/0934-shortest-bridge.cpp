@@ -1,86 +1,71 @@
-class Solution {
+class Solution
+{
 public:
-    int m, n;
-    vector<vector<int>> directions = {
-                {-1,0},
-        {0,-1},         {0,1},
-                {1, 0}
-    };
-    
-    bool isSafe(int i, int j) {
-        return (i < m && i >= 0 && j < n && j >= 0);
-    }
-    
-    void dfs(vector<vector<int>>& grid, int i, int j, set<pair<int, int>>& visitedCell) {
-        if(!isSafe(i, j) || grid[i][j] == 0 || visitedCell.find({i, j}) != visitedCell.end()) {
-            return;
-        }
-        
-        visitedCell.insert({i, j});
-        
-        for(auto &dir : directions) {
-            int i_ = i + dir[0];
-            int j_ = j + dir[1];
-            
-            dfs(grid, i_, j_, visitedCell);
+    int dx[4] = {1, -1, 0, 0};
+    int dy[4] = {0, 0, 1, -1};
+    queue<pair<int, int>> q;
+    void change(vector<vector<int>> &grid, int x, int y)
+    {
+        q.push({x, y});
+        int n = grid.size();
+        int m = grid[0].size();
+        grid[x][y] = 2;
+        for (int k = 0; k < 4; k++)
+        {
+            int nx = x + dx[k];
+            int ny = y + dy[k];
+            if (nx >= 0 && ny >= 0 && nx < n && ny < m && grid[nx][ny] == 1)
+            {
+                change(grid, nx, ny);
+            }
         }
     }
-    
-    int bfs(vector<vector<int>>& grid, set<pair<int, int>>& visitedCell) {
-        queue<pair<int, int>> que;
-        
-        for(auto &it : visitedCell) {
-            
-            que.push({it});
-            
+    int shortestBridge(vector<vector<int>> &grid)
+    {
+        int n = grid.size();
+        int m = grid[0].size();
+        bool f = false;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                if (grid[i][j])
+                {
+                    change(grid, i, j);
+                    f = true;
+                    break;
+                }
+            }
+            if (f)
+                break;
         }
-        
-        int level = 0;
-        
-        while(!que.empty()) {
-            int L = que.size();
-            
-            while(L--) {
-                pair<int, int> P = que.front();
-                que.pop();
-                
-                for(auto &dir : directions) {
-                    int i_ = P.first + dir[0];
-                    int j_ = P.second + dir[1];
-
-                    if(isSafe(i_, j_) && visitedCell.find({i_, j_}) == visitedCell.end()) {
-                        if(grid[i_][j_] == 1) //found another island
-                            return level;
-                        
-                        visitedCell.insert({i_, j_});
-                        que.push({i_, j_});
+        int ans = 0;
+        while (q.size())
+        {
+            int total = q.size();
+            ans++;
+            while (total--)
+            {
+                int x = q.front().first;
+                int y = q.front().second;
+                q.pop();
+                for (int i = 0; i < 4; i++)
+                {
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+                    if (nx >= 0 && ny >= 0 && nx < n && ny < m)
+                    {
+                        if (grid[nx][ny] == 1)
+                            return ans - 1;
+                        else if (grid[nx][ny] == 0)
+                        {
+                            grid[nx][ny] = 2;
+                            q.push({nx, ny});
+                        }
                     }
                 }
-                
-            }
-            level++;
-        }
-        
-        return level;
-    }
-    
-    int shortestBridge(vector<vector<int>>& grid) {
-        m = grid.size();
-        n = grid[0].size();
-        
-        set<pair<int, int>> visitedCell;
-        
-        for(int i = 0; i<m; i++) {
-            for(int j = 0; j<n; j++) {
-                
-                if(grid[i][j] == 1) {
-                    dfs(grid, i, j, visitedCell); //It will mark one island visited
-                    return bfs(grid, visitedCell);
-                }
-                
             }
         }
-        
-        return -1;
+        return ans;
     }
 };
