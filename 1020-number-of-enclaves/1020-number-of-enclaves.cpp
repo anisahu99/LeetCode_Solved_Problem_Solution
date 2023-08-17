@@ -1,47 +1,33 @@
 class Solution {
 public:
-    
-    int m, n;
-    void dfs(vector<vector<int>> &grid, int r, int c) {
+    vector<pair<int,int>> dir{{1,0},{-1,0},{0,1},{0,-1}};
+    int m,n;
+    void dfs(int row,int col,vector<vector<int>>& grid){
+        if(row<0||row==m||col<0||col==n||grid[row][col]==0||grid[row][col]==3) return;
         
-        if(r < 0 || r >= m || c < 0 || c >= n || grid[r][c] == 0)
-            return;
-
+        grid[row][col]=3;
         
-        grid[r][c] = 0;
-        
-        dfs(grid, r, c-1);
-        dfs(grid, r, c+1);
-        dfs(grid, r-1, c);
-        dfs(grid, r+1, c);
-        
+        for(int k=0;k<4;k++){
+            dfs(row+dir[k].first,col+dir[k].second,grid);
+        }
     }
-    
     int numEnclaves(vector<vector<int>>& grid) {
-        m = grid.size();
-        n = grid[0].size();
-        
+        m=grid.size(),n=grid[0].size();
         for(int row=0;row<m;row++){
             for(int col=0;col<n;col++){
-                if((row==0||row==m-1||col==0||col==n-1)&&grid[row][col]==1){
-                    dfs(grid,row,col);
+                if(row==0||row==m-1||col==0||col==n-1&&grid[row][col]==1){
+                    dfs(row,col,grid);
                 }
             }
         }
-        
-        
-        
-        int count = 0;
-        for(int i = 0; i<m; i++) {
-            for(int j = 0; j<n; j++) {
-                
-                if(grid[i][j] == 1) {
-                    count += 1;
+        int cnt=0;
+        for(int row=0;row<m;row++){
+            for(int col=0;col<n;col++){
+                if(grid[row][col]==1){
+                    cnt++;
                 }
-                
             }
         }
-        
-        return count;
+        return cnt;
     }
 };
