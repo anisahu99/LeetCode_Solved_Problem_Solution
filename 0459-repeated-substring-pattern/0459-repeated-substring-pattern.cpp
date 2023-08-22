@@ -1,10 +1,12 @@
 class Solution {
 public:
+
     bool repeatedSubstringPattern(string s) {
         int n=s.length();
-        for(int l=1;l<=n/2;l++){
+        //slight optimization
+        for(int l=n/2;l>=1;l--){
             string piece=s.substr(0,l);
-            //if(l>(n-l)) continue;
+            if(l>(n-l)) continue;
             int i=0;
             bool flag=true;
             while(i<n){
