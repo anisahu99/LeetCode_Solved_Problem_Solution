@@ -1,6 +1,13 @@
 class Solution {
 public:
     vector<pair<int,int>> d{{0,1},{0,-1},{1,0},{-1,0}};
+    //with the help of node matrix we do numbering to make cell a node with specific value
+    
+    // {
+    //     {0,1,2},
+    //     {3,4,5},
+    //     {6,7,8}
+    // }
     void help(int &lr,int& lc,vector<vector<int>>& node){
         int i=0;
         for(int row=0;row<lr;row++){
@@ -10,6 +17,7 @@ public:
             }
         }
     }
+    //make weighted graph between these adjacent nodes
     void makeGraph(int &lr,int &lc,vector<vector<int>>& heights,vector<vector<int>> &node,vector<vector<pair<int,int>>> &g,int &mx){
         
         auto isSafe = [&](int x, int y) {
@@ -29,16 +37,17 @@ public:
         }
     }
     
-    //
-    bool Dijkstra(int &poss_cost,int &n,vector<vector<pair<int,int>>> &g){
+    // we select that edge which cost <=poss_cost
+    bool traverse(int &poss_cost,int &n,vector<vector<pair<int,int>>> &g){
         queue<int> q;
-        vector<int> vis(n);
+        vector<int> vis(n);//take visited array taki ham usi node par na pahuch jaae jaha se aaye the
         q.push(0);
         vis[0]=1;
         while(!q.empty()){
             int node=q.front();q.pop();
             if(node==n-1) return true;
             for(pair<int,int> &edge:g[node]){
+                //take edge a-b which cost <=poss_cost
                 if(edge.second<=poss_cost&&!vis[edge.first]){
                     q.push(edge.first);
                     vis[edge.first]=1;
@@ -61,7 +70,7 @@ public:
         int ans=mx;
         while(start<=end){
             int mid=start+(end-start)/2;
-            if(Dijkstra(mid,n,g)){
+            if(traverse(mid,n,g)){
                 ans=min(ans,mid);
                 end=mid-1;
             }
@@ -73,11 +82,3 @@ public:
         
     }
 };
-
-// for(int i=0;i<n;i++){
-//             cout<<"Node:"<<i<<" {";
-//             for(pair<int,int>&p:g[i]){
-//                 cout<<"("<<p.first<<","<<p.second<<"),";
-//             }
-//             cout<<"}"<<endl;
-//         }
