@@ -10,29 +10,35 @@
  */
 class Solution {
 public:
-    ListNode* removeNodes(ListNode* head) {
-        stack<ListNode*> st;
-        while(head){
-            st.push(head);
-            head=head->next;
-        }
-        int mx=INT_MIN;
-        head=NULL;
-        while(!st.empty()){
-            ListNode* temp=st.top();st.pop();
-            if(temp->val>=mx){
-                temp->next=NULL;
-                if(!head){
-                    head=temp;
-                }else{
-                    ListNode* t=head;
-                    head=temp;
-                    head->next=t;
-                }
-                mx=temp->val;
-            }
-        }
+    ListNode* reverse(ListNode* head){
+        if(!head||!head->next) return head;
         
-        return head;
+        ListNode* pre=head;
+        ListNode* curr=head->next;
+        pre->next=NULL;
+        
+        while(curr){
+            ListNode* temp=curr->next;
+            curr->next=pre;
+            pre=curr;
+            curr=temp;
+        }
+        return pre;
+    }
+    ListNode* removeNodes(ListNode* head) {
+        ListNode* p=reverse(head);
+        ListNode* t=p->next;
+        // Max node contains the node which has the max value till those nodes which are travesed
+        ListNode* max=p;
+        while(t)
+        {
+            //checking if there is max valued node is present
+            if(max->val>t->val)
+                max->next=t->next;
+            else
+                max=t;
+            t=t->next;
+        }
+        return reverse(p);
     }
 };
