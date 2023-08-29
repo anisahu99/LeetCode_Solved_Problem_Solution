@@ -64,26 +64,20 @@ class Solution
     Node *compute(Node *head)
     {
         // your code goes here
-        stack<Node*> st;
-        Node* temp=head;
-        while(temp){
-            while(!st.empty()&&temp->data>st.top()->data){
-                st.pop();
-            }
-            st.push(temp);
-            temp=temp->next;
+        Node* p=reverse(head);
+         Node* t=p->next;
+        // Max node contains the node which has the max value till those nodes which are travesed
+        Node* max=p;
+        while(t)
+        {
+            //checking if there is max valued node is present
+            if(max->data>t->data)
+                max->next=t->next;
+            else
+                max=t;
+            t=t->next;
         }
-        Node* nHead=st.top();
-        temp=st.top();
-        st.pop();
-        temp->next=NULL;
-        while(!st.empty()){
-            temp->next=st.top();
-            temp=temp->next;
-            temp->next=NULL;
-            st.pop();
-        }
-        return reverse(nHead);
+        return reverse(p);
     }
     
 };
