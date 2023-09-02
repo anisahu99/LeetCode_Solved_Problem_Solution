@@ -119,24 +119,25 @@ public:
         //code here
         queue<Node*> q;
         int level=1;
+        int cnt=0;
         q.push(root);
-        vector<int> leaf;
         while(!q.empty()){
             int sz=q.size();
             while(sz--){
                 Node* temp=q.front();q.pop();
-                if(!temp->left&&!temp->right) leaf.push_back(level);
+                if(!temp->left&&!temp->right){
+                    if(level<=k){
+                        k-=level;
+                        cnt++;
+                    }
+                    else{
+                        return cnt;
+                    }
+                }
                 if(temp->left) q.push(temp->left);
                 if(temp->right) q.push(temp->right);
             }
             level++;
-        }
-        int cnt=0;
-        for(int x:leaf){
-            if(x<=k){
-                k-=x;
-                cnt++;
-            }
         }
         return cnt;
     }
