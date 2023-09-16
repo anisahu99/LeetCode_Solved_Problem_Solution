@@ -7,34 +7,24 @@ using namespace std;
 class Solution
 {
     public:
-    //Function to count the number of ways in which frog can reach the top.
     int mod=1e9+7;
-    vector<int> dp;
-    long long solve(int pos,int n){
-        if(pos>n){
-            return 0;
-        }
-        if(pos==n){
-            return 1;
-        }
-        if(dp[pos]!=-1){
-            return dp[pos];
-        }
-        int ans=0;
-        for(int jump=1;jump<=3;jump++){
-            ans=ans%mod+solve(pos+jump,n)%mod;
-            ans=ans%mod;
-        }
-        return dp[pos]=ans;
-        
-    }
-    
+    //Function to count the number of ways in which frog can reach the top.
     long long countWays(int n)
     {
+        if(n==1||n==2) return n;
+        if(n==3) return 4;
         // your code here
-        dp.resize(n+1,-1);
-        return solve(0,n);
         
+        long long x1=1;
+        long long x2=2;
+        long long x3=4;
+        for(int i=4;i<=n;i++){
+            long long temp=(x3%mod+x2%mod+x1%mod)%mod;
+            x1=x2;
+            x2=x3;
+            x3=temp;
+        }
+        return x3;
     }
 };
 
