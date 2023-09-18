@@ -1,5 +1,7 @@
 class Solution {
 public:
+    //1631. Path With Minimum Effort
+    //use this question concept to reach the destination
     typedef pair<int,pair<int,int>> P;
     vector<pair<int,int>> dir{{1,0},{-1,0},{0,1},{0,-1}};
     int swimInWater(vector<vector<int>>& grid) {
@@ -18,7 +20,7 @@ public:
             ans=max(ans,t);
             if(row==m-1&&col==n-1) return ans;
             int GRD=grid[row][col];
-            grid[row][col]=-1;
+            grid[row][col]=-1;// to make visited
             for(int k=0;k<4;k++){
                 int nr=row+dir[k].first;
                 int nc=col+dir[k].second;
