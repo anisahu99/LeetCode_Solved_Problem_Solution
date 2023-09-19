@@ -7,12 +7,13 @@ public:
             //cout<<sum<<endl;
             return true;
         }
-        
+        int numI=0;
+        string pre="";
         for(int l=1;l<=num.size();l++){
-            string pre=num.substr(0,l);
+            pre+=num[l-1];
             string ros=num.substr(l);
             //cout<<"length "<<l<<"-"<<ros<<endl;
-            int numI=stoi(pre);
+            numI=numI*10+(num[l-1]-'0');
             if(sum+numI<=i){
                 if(brute(i,ros,sum+numI)) return true;
             }
