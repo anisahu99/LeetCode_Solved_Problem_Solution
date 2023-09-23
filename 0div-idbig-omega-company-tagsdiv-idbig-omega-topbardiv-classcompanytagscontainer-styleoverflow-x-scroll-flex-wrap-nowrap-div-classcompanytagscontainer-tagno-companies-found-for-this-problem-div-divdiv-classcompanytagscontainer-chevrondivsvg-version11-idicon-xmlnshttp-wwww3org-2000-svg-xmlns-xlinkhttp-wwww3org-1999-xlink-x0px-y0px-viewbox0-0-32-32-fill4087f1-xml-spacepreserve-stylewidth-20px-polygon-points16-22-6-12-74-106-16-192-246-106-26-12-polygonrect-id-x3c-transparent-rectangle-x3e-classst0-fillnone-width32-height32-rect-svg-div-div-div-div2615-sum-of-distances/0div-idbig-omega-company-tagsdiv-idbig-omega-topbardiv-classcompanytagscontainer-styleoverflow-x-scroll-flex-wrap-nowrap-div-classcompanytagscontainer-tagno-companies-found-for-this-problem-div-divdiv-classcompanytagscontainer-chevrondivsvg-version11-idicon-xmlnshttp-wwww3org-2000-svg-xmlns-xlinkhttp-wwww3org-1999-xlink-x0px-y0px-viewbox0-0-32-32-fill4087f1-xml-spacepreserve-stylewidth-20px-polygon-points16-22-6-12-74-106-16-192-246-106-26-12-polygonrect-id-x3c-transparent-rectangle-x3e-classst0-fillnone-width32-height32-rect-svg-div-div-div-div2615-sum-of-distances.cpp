@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // do myself
     vector<long long> distance(vector<int>& nums) {
         unordered_map<int,vector<int>> mp;
         for(int i=0;i<nums.size();i++){
