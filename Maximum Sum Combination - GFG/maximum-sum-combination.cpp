@@ -6,25 +6,34 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    vector<int> maxCombinations(int N, int K, vector<int> &A, vector<int> &B) {
+    vector<int> maxCombinations(int n, int k, vector<int> &a, vector<int> &b) {
         // code here
-        vector<int> ans;
-        set<pair<int,int>> st;
-        priority_queue<vector<int>> p;
-        sort(A.begin(),A.end());
-        sort(B.begin(),B.end());
-        p.push({A[N-1]+B[N-1],N-1,N-1});
-        st.insert({N-1,N-1});
-        while(K--){
-            vector<int> temp=p.top();
-            p.pop();
-            int sum=temp[0],i=temp[1],j=temp[2];
-            ans.push_back(sum);
-            if(j>=1 && st.count({i,j-1})==0 ){p.push({A[i]+B[j-1],i,j-1}); st.insert({i,j-1});}
-            if(i>=1 && st.count({i-1,j})==0 ){p.push({A[i-1]+B[j],i-1,j});st.insert({i-1,j});}
-        }
-        return ans;
+        sort(a.begin(),a.end());
+    	sort(b.begin(),b.end());
+    	priority_queue<pair<int,pair<int,int>>> pq;
+    	pq.push({a[n-1]+b[n-1],{n-1,n-1}});
+    	set<pair<int,int>> vis;
+    	vis.insert({n-1,n-1});
+    	vector<int> ans;
+    	while(k--){
+    		int sum=pq.top().first;
+    		ans.push_back(sum);
+    		int i=pq.top().second.first;
+    		int j=pq.top().second.second;pq.pop();
+    		
+    		
+    		if(j-1>=0&&vis.find({i,j-1})==vis.end()){
+    			pq.push({a[i]+b[j-1],{i,j-1}});
+    			vis.insert({i,j-1});
+    		}
+    		if(i-1>=0&&vis.find({i-1,j})==vis.end()){
+    			pq.push({a[i-1]+b[j],{i-1,j}});
+    			vis.insert({i-1,j});
+    		}
+    	}
+    	return ans;
     }
+
 };
 
 //{ Driver Code Starts.
