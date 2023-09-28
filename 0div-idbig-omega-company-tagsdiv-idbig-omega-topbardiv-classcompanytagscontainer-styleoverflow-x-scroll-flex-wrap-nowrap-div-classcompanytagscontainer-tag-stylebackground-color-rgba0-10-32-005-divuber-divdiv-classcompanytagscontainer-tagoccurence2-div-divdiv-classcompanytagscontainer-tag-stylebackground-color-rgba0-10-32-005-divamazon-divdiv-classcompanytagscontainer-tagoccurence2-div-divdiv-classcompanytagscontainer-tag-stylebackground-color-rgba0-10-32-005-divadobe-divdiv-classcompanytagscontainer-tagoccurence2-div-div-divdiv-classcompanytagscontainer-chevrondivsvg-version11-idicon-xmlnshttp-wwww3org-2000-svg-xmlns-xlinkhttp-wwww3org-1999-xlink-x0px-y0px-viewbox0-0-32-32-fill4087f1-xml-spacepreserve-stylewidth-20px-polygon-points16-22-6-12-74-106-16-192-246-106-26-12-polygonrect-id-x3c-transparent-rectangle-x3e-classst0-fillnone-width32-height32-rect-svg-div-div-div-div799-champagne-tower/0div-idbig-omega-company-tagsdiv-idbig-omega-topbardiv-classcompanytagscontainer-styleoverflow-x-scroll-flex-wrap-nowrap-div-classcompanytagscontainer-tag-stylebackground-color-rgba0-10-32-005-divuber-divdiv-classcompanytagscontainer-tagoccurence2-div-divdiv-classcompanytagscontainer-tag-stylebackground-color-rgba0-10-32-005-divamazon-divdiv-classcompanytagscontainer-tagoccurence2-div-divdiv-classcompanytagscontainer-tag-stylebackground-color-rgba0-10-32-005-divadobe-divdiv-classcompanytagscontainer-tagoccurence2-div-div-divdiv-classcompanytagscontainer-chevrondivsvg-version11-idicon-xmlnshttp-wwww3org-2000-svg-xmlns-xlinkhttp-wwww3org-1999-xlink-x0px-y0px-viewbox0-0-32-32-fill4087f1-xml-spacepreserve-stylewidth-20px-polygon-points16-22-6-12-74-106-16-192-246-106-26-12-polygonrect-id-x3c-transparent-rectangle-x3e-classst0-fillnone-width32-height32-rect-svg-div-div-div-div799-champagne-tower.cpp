@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // myself
     double champagneTower(int poured, int query_row, int query_glass) {
         // if(poured==0||poured==1&&query_row!=0||query_glass!=0) return (double) 0;
         // if(poured==1&&query_row==0&&query_glass==0) return (double) 1;
