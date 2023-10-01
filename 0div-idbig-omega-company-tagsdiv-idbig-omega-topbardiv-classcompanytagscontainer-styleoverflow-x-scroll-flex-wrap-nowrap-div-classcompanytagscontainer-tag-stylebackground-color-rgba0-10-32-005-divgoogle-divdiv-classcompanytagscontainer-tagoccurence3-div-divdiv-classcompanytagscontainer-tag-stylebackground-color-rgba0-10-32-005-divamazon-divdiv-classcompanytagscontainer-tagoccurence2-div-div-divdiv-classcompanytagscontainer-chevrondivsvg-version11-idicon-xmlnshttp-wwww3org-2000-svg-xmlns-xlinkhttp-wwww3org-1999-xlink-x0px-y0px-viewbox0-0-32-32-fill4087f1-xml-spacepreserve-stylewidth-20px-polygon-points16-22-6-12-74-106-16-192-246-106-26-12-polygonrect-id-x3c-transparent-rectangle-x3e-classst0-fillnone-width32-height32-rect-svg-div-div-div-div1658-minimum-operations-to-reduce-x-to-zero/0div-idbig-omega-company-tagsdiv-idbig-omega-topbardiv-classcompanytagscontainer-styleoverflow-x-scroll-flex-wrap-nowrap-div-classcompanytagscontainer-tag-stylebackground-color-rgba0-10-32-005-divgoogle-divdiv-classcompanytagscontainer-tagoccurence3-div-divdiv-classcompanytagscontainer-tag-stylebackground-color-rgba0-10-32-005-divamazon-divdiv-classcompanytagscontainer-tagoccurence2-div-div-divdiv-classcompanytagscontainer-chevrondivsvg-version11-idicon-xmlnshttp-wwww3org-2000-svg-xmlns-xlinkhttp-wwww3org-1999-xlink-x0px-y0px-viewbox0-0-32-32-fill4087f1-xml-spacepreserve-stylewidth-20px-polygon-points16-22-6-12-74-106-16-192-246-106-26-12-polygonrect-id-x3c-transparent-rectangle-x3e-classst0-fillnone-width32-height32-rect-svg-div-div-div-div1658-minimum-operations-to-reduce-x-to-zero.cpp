@@ -1,28 +1,31 @@
 class Solution {
 public:
-    //little bit logical help resource from discussion
-    //https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero/discuss/2136555/C%2B%2BPython-Simple-Solution-w-Explanation-or-Sliding-Window
-    
     int minOperations(vector<int>& nums, int x) {
-        int sum = 0, n = nums.size();
-        for (int i : nums) sum += i;
-        
-        int target = sum - x;
-        int curr_sum = 0, max_len = 0;
-        int i = 0,j = 0;
-        bool found = false;
-        while(j<n) {
-            curr_sum += nums[j];
-            while (i <= j && curr_sum > target) {
-                curr_sum -= nums[i];
-                i++;
+        int n=nums.size();
+        unordered_map<int,int> left;
+        for(int l=0,left_sum=0;l<=n&&left_sum<=x;l++){
+            //{sum,length}=>length corresponding to sum
+            left[left_sum]=l;
+            if(l<n){
+                left_sum+=nums[l];
             }
-            if (curr_sum == target) {
-                found = true;
-                max_len = max(max_len, j - i + 1);
-            }
-            j++;
         }
-        return found ? n - max_len : -1;
+        
+        int res=INT_MAX;
+        for(int right_idx=n,right_sum=0;right_idx>=0;right_idx--){
+            if(right_idx<n) right_sum+=nums[right_idx];
+            
+            int target=x-right_sum;
+            auto it=left.find(target);
+            if(it==left.end()) continue;
+            int left_idx=it->second-1;
+            //It is used to avoid overlapping of sum from left(l) and right(r) side.
+            if(left_idx<right_idx){
+                
+                int ans=(left_idx+1)+(n-right_idx);
+                res=min(res,ans);
+            }
+        }
+        return res==INT_MAX?-1:res;
     }
 };
