@@ -1,5 +1,8 @@
 class Solution {
 public:
+    //this is optimal brute force
+    //using hashmap
+    //rolling sum concept/idea
     int minOperations(vector<int>& nums, int x) {
         int n=nums.size();
         unordered_map<int,int> left;
