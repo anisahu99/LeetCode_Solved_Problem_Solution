@@ -1,5 +1,40 @@
+// Algorithm Steps:
+// Initialize Variables:
+
+// Initialize the modulo value mod = 1e9 + 7.
+// Define a helper function binaryExponentiation to compute exponentiation modulo mod.
+// Find First and Last Occurrences:
+
+// Create two hash maps: pos to store the first and last occurrences of distinct elements, and freq to store the frequency of each element in nums.
+// Iterate Through the Elements:
+
+// Traverse through the elements in nums.
+// Update pos with the first and last occurrences of each distinct element.
+// Update freq to keep track of the frequency of each element.
+// Prepare Intervals:
+
+// Construct intervals using the first and last occurrences of distinct elements stored in the pos map.
+// Store these intervals in a 2D vector intervals.
+// Sort Intervals and Find Distinct Intervals:
+
+// Sort the intervals based on the start positions.
+// Use the find_distinct_interval function to determine the number of distinct intervals formed.
+// Compute Number of Good Partitions:
+
+// Calculate total as the count of distinct intervals.
+// Return the result of binaryExponentiation(2, total - 1) as the number of good partitions.
+// Code Explanation:
+// binaryExponentiation: Implements modular exponentiation efficiently.
+// find_distinct_interval: Determines the count of distinct intervals based on the intervals formed by the first and last occurrences of elements in the input intervals.
+// numberOfGoodPartitions: Orchestrates the overall process:
+// Stores the first and last occurrences of distinct elements.
+// Prepares intervals from these occurrences.
+// Calculates the count of distinct intervals and returns the count of good partitions.
+// This code employs a combination of interval manipulation and modular exponentiation to efficiently count the number of good partitions in a given array of integers.
+
 class Solution {
 public:
+    // myself
     int mod=1e9+7;
     int binaryExponentiation(int a,int b){
         int ans=1;
@@ -35,7 +70,10 @@ public:
     
     int numberOfGoodPartitions(vector<int>& nums) {
         
+        // store first and last occurence of distinct element in nums
         unordered_map<int,pair<int,int>> pos;
+        
+        // store frequency to store first occurence of element
         unordered_map<int,int> freq;
         int n=nums.size();
         for(int i=0;i<n;i++){
