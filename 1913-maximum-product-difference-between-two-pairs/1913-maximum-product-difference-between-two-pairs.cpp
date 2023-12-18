@@ -1,5 +1,6 @@
 class Solution {
 public:
+    // myself
     int maxProductDifference(vector<int>& nums) {
         sort(nums.rbegin(),nums.rend());
         int n=nums.size();
